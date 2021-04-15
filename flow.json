@@ -1,0 +1,298 @@
+[
+    {
+        "id": "74e0880a.c777f8",
+        "type": "tab",
+        "label": "My flow",
+        "disabled": true,
+        "info": ""
+    },
+    {
+        "id": "e26c53af.cca2b",
+        "type": "serial in",
+        "z": "74e0880a.c777f8",
+        "name": "",
+        "serial": "186fcd9f.5f5262",
+        "x": 180,
+        "y": 180,
+        "wires": [
+            [
+                "e45d22bf.57606",
+                "e06252b0.156d2"
+            ]
+        ]
+    },
+    {
+        "id": "e45d22bf.57606",
+        "type": "function",
+        "z": "74e0880a.c777f8",
+        "name": "Temp",
+        "func": "\nvar temp1= msg.payload[6]-48;\nvar temp2= msg.payload[7]-48;\nvar temp3= msg.payload[9]-48;\nvar temp4= msg.payload[10]-48;\n\nvar result = (temp1*1000)+ (temp2*100) + (temp3*10) + temp4; \nresult = result/100;\n\nvar result1 = {payload:result};\n\nreturn[result1];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "9f2a37c9.0d8f88",
+                "e8cd4ad.9efd8b8"
+            ]
+        ]
+    },
+    {
+        "id": "e06252b0.156d2",
+        "type": "function",
+        "z": "74e0880a.c777f8",
+        "name": "Humidity",
+        "func": "var hum1= msg.payload[0]-48;\nvar hum2= msg.payload[1]-48;\nvar hum3= msg.payload[3]-48;\nvar hum4= msg.payload[4]-48;\n\nvar result = (hum1*1000)+ (hum2*100) + (hum3*10) + hum4; \nresult = result/100;\n\nvar result1 = {payload:result};\n\nreturn[result1];",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 280,
+        "wires": [
+            [
+                "f7b0f890.f22e18",
+                "cee90110.f2f858"
+            ]
+        ]
+    },
+    {
+        "id": "9f2a37c9.0d8f88",
+        "type": "ui_gauge",
+        "z": "74e0880a.c777f8",
+        "name": "Temp",
+        "group": "d5da3e9b.46abf",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "temp",
+        "label": "units",
+        "format": "{{value}} °C",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 850,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "f7b0f890.f22e18",
+        "type": "ui_gauge",
+        "z": "74e0880a.c777f8",
+        "name": "Humidity",
+        "group": "d5da3e9b.46abf",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity",
+        "label": "units",
+        "format": "{{value}}%",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 880,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "986ef58f.ccf6a8",
+        "type": "comment",
+        "z": "74e0880a.c777f8",
+        "name": "Displays the msg.payload in the debug console.",
+        "info": "#  Displays the msg.payload in the debug console.",
+        "x": 320,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "55606984.071828",
+        "type": "comment",
+        "z": "74e0880a.c777f8",
+        "name": "Function to extract temperature from Arduino",
+        "info": "",
+        "x": 430,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "6209a445.ab398c",
+        "type": "comment",
+        "z": "74e0880a.c777f8",
+        "name": "Function to extract temperature from Arduino",
+        "info": "",
+        "x": 470,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "d88dd470.0ac7b8",
+        "type": "inject",
+        "z": "74e0880a.c777f8",
+        "d": true,
+        "name": "make request",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 540,
+        "wires": [
+            [
+                "874a3d4e.9b666"
+            ]
+        ]
+    },
+    {
+        "id": "874a3d4e.9b666",
+        "type": "http request",
+        "z": "74e0880a.c777f8",
+        "d": true,
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://uuidentity.plus4u.net/uu-oidc-maing02/bb977a99f4cc4c37a2afce3fd599d0a7/oidc/grantToken",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "x": 410,
+        "y": 540,
+        "wires": [
+            [
+                "7403c68f.21d7c8"
+            ]
+        ]
+    },
+    {
+        "id": "7403c68f.21d7c8",
+        "type": "debug",
+        "z": "74e0880a.c777f8",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "e9ed409a.72eba",
+        "type": "comment",
+        "z": "74e0880a.c777f8",
+        "name": "GET reques",
+        "info": "#  Displays the msg.payload in the debug console.",
+        "x": 210,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "cee90110.f2f858",
+        "type": "debug",
+        "z": "74e0880a.c777f8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e8cd4ad.9efd8b8",
+        "type": "debug",
+        "z": "74e0880a.c777f8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 850,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "186fcd9f.5f5262",
+        "type": "serial-port",
+        "serialport": "/dev/tty.usbserial-1430",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": "10000"
+    },
+    {
+        "id": "d5da3e9b.46abf",
+        "type": "ui_group",
+        "name": "DHT11",
+        "tab": "784aac14.5c2404",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "784aac14.5c2404",
+        "type": "ui_tab",
+        "name": "Station",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
